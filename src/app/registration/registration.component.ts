@@ -1,15 +1,54 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+    selector: 'app-registration',
+    templateUrl: './registration.component.html',
+    styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
+    registerForm: FormGroup;
+    loading = false;
+    submitted = false;
 
-  constructor() { }
+    constructor(
+        private formBuilder: FormBuilder,
+        private router: Router,
+        private http: HttpClient
+    ) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        this.registerForm = this.formBuilder.group({
+            username: ['', Validators.required],
+            password: ['', [Validators.required, Validators.minLength(6)]],
+            email: ['', Validators.required],
+            birthday: ['', Validators.required],
+            gender: ['', Validators.required]
+        });
+    }
 
+    get f() { return this.registerForm.controls; }
+
+    onSubmit() {
+        this.submitted = true;
+
+        // stop here if form is invalid
+        if (this.registerForm.invalid) {
+            return;
+        }
+
+        this.loading = true;
+        this.http.post(`http://localhost:8090/users/registration`, this.registerForm.value)
+            .pipe(first())
+                .subscribe(
+                    data => {
+                        this.router.navigate(['/login']);
+                    },
+                    error => {
+                        this.loading = false;
+                    });
+    }
 }
