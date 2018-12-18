@@ -1,0 +1,35 @@
+<app-nav></app-nav>
+
+<div id="content" class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Option</th>
+                <th>Name</th>
+                <th>Photo</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Sub Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let book of books">
+                <td align="center">
+                    <a class="btn btn-danger" (click)="remove(book.id)">X</a>
+                </td>
+                <td>{{book.name}}</td>
+                <td>
+                    <img src="{{book.photoLink}}" width="50">
+                </td>
+                <td>{{book.price}}</td>
+                <td>{{book.count}}</td>
+                <td>{{book.price * book.count}}</td>
+            </tr>
+            <tr>
+                <td colspan="6" align="right">Total</td>
+                <td>{{total}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-success" (click)="makeOrder()">Make order</button>
+</div>

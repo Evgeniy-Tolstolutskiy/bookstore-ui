@@ -20,11 +20,9 @@ export class AuthService {
     }
 
     login(username: string, password: string) {
-        return this.http.post<any>(`http://localhost:8090/oauth/token?grant_type=password&username=${username}&password=${password}&client_id=bookstore_client&client_secret=bookstore_secret`, {})
+        return this.http.post<any>(`${config.apiUrl}/oauth/token?grant_type=password&username=${username}&password=${password}&client_id=bookstore_client&client_secret=bookstore_secret`, {})
             .pipe(map(user => {
-                // login successful if there's a jwt token in the response
                 if (user && user.access_token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);
                 }
@@ -34,7 +32,6 @@ export class AuthService {
     }
 
     logout() {
-        // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }

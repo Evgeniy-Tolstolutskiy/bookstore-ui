@@ -1,0 +1,14 @@
+<app-nav></app-nav>
+
+<div id="content">
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let order of orders">
+            Id: {{order.id}}, Price: {{order.price}}, Date: {{order.date | date : 'yyyy-MM-dd'}}
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let bookOrder of order.bookOrders">
+                    Name: {{bookOrder.book.name}}, Image: <img src="{{bookOrder.book.photoLink}}" width="100"/>, Price: {{bookOrder.book.price}}, Count: {{bookOrder.count}}
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

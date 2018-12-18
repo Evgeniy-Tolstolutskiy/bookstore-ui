@@ -6,9 +6,9 @@ import { first } from 'rxjs/operators';
 import { AuthService } from '../AuthService';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                    this.error = error;
+                    this.error = 'Wrong username or password';
                     this.loading = false;
                 });
     }

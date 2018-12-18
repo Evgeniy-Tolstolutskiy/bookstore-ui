@@ -1,3 +1,11 @@
-<p>
-  home works!
-</p>
+<app-nav></app-nav>
+
+<div id="content" class="container">
+
+    <div *ngFor="let book of books" class="row">
+        <div class="col">
+            Name: {{book.name}}, Image: <img src="{{book.photoLink}}" width="100"/>, Price: {{book.price}}
+            <a [class.disabled]="isCountExceeded(book)" (click)="addToCart(book)" class="btn btn-info">+</a>
+        </div>
+    </div>
+</div>

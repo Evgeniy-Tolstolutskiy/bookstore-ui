@@ -24,10 +24,18 @@ export class RegistrationComponent implements OnInit {
         this.registerForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(6)]],
-            email: ['', Validators.required],
+            confirmPassword: ['', [Validators.required]],
+            email: ['', [Validators.required, Validators.email]],
             birthday: ['', Validators.required],
             gender: ['', Validators.required]
-        });
+        }, { validator: this.checkPasswords });
+    }
+
+    checkPasswords(group: FormGroup) {
+        let pass = group.controls.password.value;
+        let confirmPass = group.controls.confirmPassword.value;
+
+        return pass === confirmPass ? null : { notMatch: true }
     }
 
     get f() { return this.registerForm.controls; }
@@ -41,11 +49,11 @@ export class RegistrationComponent implements OnInit {
         }
 
         this.loading = true;
-        this.http.post(`http://localhost:8090/users/registration`, this.registerForm.value)
+        this.http.post(`${config.apiUrl}/users/registration`, this.registerForm.value)
             .pipe(first())
                 .subscribe(
                     data => {
-                        this.router.navigate(['/login']);
+                        this.router.navigate(['/']);
                     },
                     error => {
                         this.loading = false;
