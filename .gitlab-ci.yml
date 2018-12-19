@@ -7,6 +7,8 @@ job_build:
   services:
     - docker:dind
   stage: build
+  tags:
+    - job_build
   only:
     - develop
   script:
