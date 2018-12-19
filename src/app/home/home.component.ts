@@ -3,6 +3,8 @@ import { Book } from '../_models/book';
 import { HttpClient } from '@angular/common/http';
 import { first } from 'rxjs/operators';
 import { CartComponent } from '../cart/cart.component';
+import { Page } from '../_models/page';
+import { Globals } from '../globals'
 
 @Component({
     selector: 'app-home',
@@ -11,16 +13,18 @@ import { CartComponent } from '../cart/cart.component';
 })
 export class HomeComponent implements OnInit {
     books: Book[] = [];
+    page: Page;
 
-    constructor(private http: HttpClient, private cartComponent: CartComponent) { }
+    constructor(private http: HttpClient, private cartComponent: CartComponent, private globals: Globals) { }
 
     ngOnInit() {
-        this.loadAllBooks();
+        this.loadAllBooks(1, this.globals.defaultPageLimit);
     }
 
-    private loadAllBooks() {
-        this.http.get<Book[]>(`${config.apiUrl}/books`).pipe(first()).subscribe(books => {
+    private loadAllBooks(pageNumber: number, limit: number) {
+        this.http.get<Book[]>(`${config.apiUrl}/books?page=${pageNumber}&limit=${limit}`).pipe(first()).subscribe(books => {
             this.books = (<any>books)._embedded.books;
+            this.page = (<any>books).page;
         });
     }
 
@@ -33,5 +37,9 @@ export class HomeComponent implements OnInit {
 
     isCountExceeded(book: Book) {
         return book.count <= 0;
+    }
+
+    pageChanged(pageNumber: number) {
+        this.loadAllBooks(pageNumber, this.globals.defaultPageLimit);
     }
 }

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { JwtInterceptor } from './JwtInterceptor';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,7 +15,13 @@ import { HomeComponent } from './home/home.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CartComponent } from './cart/cart.component';
-import { AuthService } from './AuthService'
+import { AuthService } from './AuthService';
+import { AuthGuard } from './auth.guard';
+import { AdminNavComponent } from './admin-nav/admin-nav.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AdminProfileComponent } from './admin-profile/admin-profile.component';
+import { UsersComponent } from './users/users.component';
+import { Globals } from './globals'
 
 @NgModule({
     declarations: [
@@ -25,20 +32,27 @@ import { AuthService } from './AuthService'
         HomeComponent,
         OrdersComponent,
         ProfileComponent,
-        CartComponent
+        CartComponent,
+        AdminNavComponent,
+        UserProfileComponent,
+        AdminProfileComponent,
+        UsersComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         FormsModule,
         ReactiveFormsModule,
-        HttpClientModule
+        HttpClientModule,
+        NgxPaginationModule
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthGuard, multi: true },
         DatePipe,
         CartComponent,
-        AuthService
+        AuthService,
+        Globals
     ],
     bootstrap: [AppComponent]
 })

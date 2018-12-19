@@ -15,53 +15,53 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class CartComponent implements OnInit {
     private books: Book[] = [];
-	private total: number = 0;
+    private total: number = 0;
 
-	constructor(private http: HttpClient, private router: Router) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
-	ngOnInit() {
+    ngOnInit() {
         this.loadCart();
-	}
-
-	loadCart(): void {
-		this.total = 0;
-		this.books = [];
-		let books = JSON.parse(localStorage.getItem('cart'));
-		for (var i = 0; i < books.length; i++) {
-			this.books.push(books[i]);
-			this.total += books[i].price * books[i].count;
-		}
-	}
-
-    add(book: Book) {
-        const copiedBook: Book = { ...book };
-        let books: any = JSON.parse(localStorage.getItem('cart'));
-        if (books == null) {
-            books = [];
-        }
-        for (var i = 0; i < books.length; i++) {
-			if (books[i].id == book.id) {
-				books[i].count += 1;
-                localStorage.setItem("cart", JSON.stringify(books));
-                return;
-			}
-		}
-        copiedBook.count = 1;
-        books.push(copiedBook);
-        localStorage.setItem("cart", JSON.stringify(books));
     }
 
-	remove(id: number): void {
-		let books: any = JSON.parse(localStorage.getItem('cart'));
-		for (var i = 0; i < books.length; i++) {
-			if (books[i].id == id) {
-				books.splice(i, 1);
-				break;
-			}
-		}
-		localStorage.setItem("cart", JSON.stringify(books));
-		this.loadCart();
-	}
+    loadCart(): void {
+        this.total = 0;
+        this.books = [];
+        let books = JSON.parse(localStorage.getItem('cart'));
+        for (var i = 0; i < books.length; i++) {
+            this.books.push(books[i]);
+            this.total += books[i].price * books[i].count;
+        }
+    }
+
+      add(book: Book) {
+          const copiedBook: Book = { ...book };
+          let books: any = JSON.parse(localStorage.getItem('cart'));
+          if (books == null) {
+              books = [];
+          }
+          for (var i = 0; i < books.length; i++) {
+              if (books[i].id == book.id) {
+                  books[i].count += 1;
+                  localStorage.setItem("cart", JSON.stringify(books));
+                  return;
+              }
+          }
+          copiedBook.count = 1;
+          books.push(copiedBook);
+          localStorage.setItem("cart", JSON.stringify(books));
+      }
+
+    remove(id: number): void {
+        let books: any = JSON.parse(localStorage.getItem('cart'));
+        for (var i = 0; i < books.length; i++) {
+            if (books[i].id == id) {
+                books.splice(i, 1);
+                break;
+            }
+        }
+        localStorage.setItem("cart", JSON.stringify(books));
+        this.loadCart();
+    }
 
     makeOrder() {
         let orderItems: BookOrder[] = [];
@@ -70,7 +70,7 @@ export class CartComponent implements OnInit {
                 book: this.books[i],
                 count: this.books[i].count
             });
-		}
+		    }
         let order: Order = new Order();
         order.bookOrders = orderItems;
         order.price = this.total;

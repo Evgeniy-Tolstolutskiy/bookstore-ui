@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import decode from 'jwt-decode';
 
 import { AuthService } from '../AuthService';
 
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
     loading = false;
     submitted = false;
     returnUrl: string;
+    adminReturnUrl: string;
     error = '';
 
     constructor(
@@ -35,6 +37,7 @@ export class LoginComponent implements OnInit {
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+        this.adminReturnUrl = this.route.snapshot.queryParams['returnUrl'] || '/adminHome';
     }
 
     // convenience getter for easy access to form fields
@@ -53,7 +56,12 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.router.navigate([this.returnUrl]);
+                    const tokenPayload = decode(data.access_token);
+                    if (tokenPayload.authorities[0] === 'ROLE_USER') {
+                        this.router.navigate([this.returnUrl]);
+                    } else if (tokenPayload.authorities[0] === 'ROLE_ADMIN') {
+                        this.router.navigate([this.adminReturnUrl]);
+                    }
                 },
                 error => {
                     this.error = 'Wrong username or password';

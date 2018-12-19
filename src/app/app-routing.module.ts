@@ -5,17 +5,19 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { OrdersComponent } from './orders/orders.component';
-import { ProfileComponent } from './profile/profile.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CartComponent } from './cart/cart.component';
 import { AuthGuard } from './auth.guard';
+import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 
 const routes: Routes = [
     { path: '', component: LoginComponent },
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'registration', component: RegistrationComponent },
     { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
-    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-    { path: 'cart', component: CartComponent, canActivate: [AuthGuard] }
+    { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+    { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
+    { path: 'adminHome', component: AdminProfileComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

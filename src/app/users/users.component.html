@@ -1,0 +1,24 @@
+<app-nav></app-nav>
+
+<div id="content" class="container">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Username</th>
+      <th>Gender</th>
+      <th>Email</th>
+      <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{user.username}}</td>
+      <td>{{user.gender}}</td>
+      <td>{{user.email}}</td>
+      <td align="center">
+        <a class="btn btn-danger" (click)="remove(user.id)">X</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
