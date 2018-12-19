@@ -1,10 +1,7 @@
 stages:
   - build
 
-before_script:
-  - export RANCHER_ENV=$Preprod
-
-build:
+job_build:
   stage: build
   image: docker:latest
   services:

@@ -1,9 +1,10 @@
-FROM node:10-alpine as node
-COPY . /dist
-WORKDIR /dist
+FROM node:10-alpine
+RUN npm install webpack -g
 
-ARG ENDPOINT
+WORKDIR /server
 
-RUN npm install && \
-    npm run build && \
-    npm run start
+COPY . /server
+RUN npm install
+
+EXPOSE 3000
+CMD [ "npm", "start" ]
