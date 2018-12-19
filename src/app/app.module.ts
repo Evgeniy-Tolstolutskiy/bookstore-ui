@@ -48,7 +48,6 @@ import { Globals } from './globals'
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: AuthGuard, multi: true },
         DatePipe,
         CartComponent,
         AuthService,

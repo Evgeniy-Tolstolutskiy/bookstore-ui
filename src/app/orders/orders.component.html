@@ -2,7 +2,7 @@
 
 <div id="content">
     <ul class="list-group">
-        <li class="list-group-item" *ngFor="let order of orders">
+        <li class="list-group-item" *ngFor="let order of orders | paginate: { id: 'id', itemsPerPage: page?.size, currentPage: page?.number, totalItems: page?.totalElements }">
             Id: {{order.id}}, Price: {{order.price}}, Date: {{order.date | date : 'yyyy-MM-dd'}}
             <ul class="list-group">
                 <li class="list-group-item" *ngFor="let bookOrder of order.bookOrders">
@@ -11,4 +11,5 @@
             </ul>
         </li>
     </ul>
+    <pagination-controls (pageChange)="pageChanged($event)" id="id"></pagination-controls>
 </div>

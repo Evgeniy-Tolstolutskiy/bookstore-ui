@@ -5,7 +5,6 @@ import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -17,21 +16,15 @@ export class ProfileComponent implements OnInit {
     userForm: FormGroup;
     loading = false;
     submitted = false;
-    userSuccessfullyUpdated: string;
+    success = '';
 
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
         private http: HttpClient,
-        private datePipe: DatePipe,
-        private activatedRoute: ActivatedRoute) { }
+        private datePipe: DatePipe) { }
 
     ngOnInit() {
-        this.activatedRoute.queryParams
-            .subscribe(params => {
-                this.userSuccessfullyUpdated = params.success;
-            });
-
         this.http.get<User>(`${config.apiUrl}/users/me`).pipe(first()).subscribe(user => {
             this.user = user;
             this.userForm = this.formBuilder.group({
@@ -76,8 +69,8 @@ export class ProfileComponent implements OnInit {
             .pipe(first())
                 .subscribe(
                     data => {
-                        this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
-                        this.router.navigate(["/profile"], { queryParams: { success: 'User successfully updated' } }));
+                        this.success = 'User successfully updated';
+                        this.loading = false;
                     },
                     error => {
                         this.loading = false;

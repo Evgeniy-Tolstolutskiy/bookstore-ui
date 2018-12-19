@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  ui-local:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: bookstoreui_ui
+    ports:
+      - 4200:4200
+    environment:
+      - ENDPOINT=http://localhost:8060

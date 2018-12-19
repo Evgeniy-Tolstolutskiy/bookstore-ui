@@ -18,13 +18,14 @@ export class HomeComponent implements OnInit {
     constructor(private http: HttpClient, private cartComponent: CartComponent, private globals: Globals) { }
 
     ngOnInit() {
-        this.loadAllBooks(1, this.globals.defaultPageLimit);
+        this.loadAllBooks(0, this.globals.defaultPageSize);
     }
 
-    private loadAllBooks(pageNumber: number, limit: number) {
-        this.http.get<Book[]>(`${config.apiUrl}/books?page=${pageNumber}&limit=${limit}`).pipe(first()).subscribe(books => {
+    private loadAllBooks(pageNumber: number, size: number) {
+        this.http.get<Book[]>(`${config.apiUrl}/books?page=${pageNumber}&size=${size}`).pipe(first()).subscribe(books => {
             this.books = (<any>books)._embedded.books;
             this.page = (<any>books).page;
+            this.page.number += 1;
         });
     }
 
@@ -40,6 +41,6 @@ export class HomeComponent implements OnInit {
     }
 
     pageChanged(pageNumber: number) {
-        this.loadAllBooks(pageNumber, this.globals.defaultPageLimit);
+        this.loadAllBooks(pageNumber - 1, this.globals.defaultPageSize);
     }
 }
