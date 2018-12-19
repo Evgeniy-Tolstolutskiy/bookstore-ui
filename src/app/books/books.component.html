@@ -1,14 +1,15 @@
-<app-nav></app-nav>
+<app-admin-nav></app-admin-nav>
 
 <div id="content" class="container">
 
+    <button (click)="create()" class="btn btn-primary">Create</button>
     <table class="table">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Photo</th>
                 <th>Price</th>
-                <th>Add to cart</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -18,7 +19,7 @@
                     <img src="{{book.photoLink}}" width="100">
                 </td>
                 <td>{{book.price}}</td>
-                <td><a [class.disabled]="isCountExceeded(book)" (click)="addToCart(book)" class="btn btn-info">+</a></td>
+                <td><button (click)="edit(book)" class="btn btn-info">Edit</button></td>
             </tr>
         </tbody>
     </table>

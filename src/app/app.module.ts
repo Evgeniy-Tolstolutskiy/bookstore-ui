@@ -21,7 +21,9 @@ import { AdminNavComponent } from './admin-nav/admin-nav.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 import { UsersComponent } from './users/users.component';
-import { Globals } from './globals'
+import { Globals } from './globals';
+import { BooksComponent } from './books/books.component';
+import { BookComponent } from './book/book.component'
 
 @NgModule({
     declarations: [
@@ -36,7 +38,9 @@ import { Globals } from './globals'
         AdminNavComponent,
         UserProfileComponent,
         AdminProfileComponent,
-        UsersComponent
+        UsersComponent,
+        BooksComponent,
+        BookComponent
     ],
     imports: [
         BrowserModule,
