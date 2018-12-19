@@ -8,7 +8,7 @@ job_build:
     - docker:dind
   stage: build
   tags:
-    - job_build
+    - docker
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN hub.githost.io
     - docker build -t hub.githost.io/malinovsky/tolstolutskyi_bookstore_ui:$CI_COMMIT_REF_NAME-${CI_COMMIT_SHA:0:8} .
